@@ -11,7 +11,6 @@
 #include <linux/moduleparam.h>
 #include <linux/netlink.h>
 #include <linux/printk.h>
-#include <linux/seq_file.h>
 #include <linux/skbuff.h>
 #include <linux/stddef.h>
 #include <linux/string.h>
@@ -109,29 +108,6 @@ int batadv_algo_select(struct batadv_priv *bat_priv, char *name)
 
 	return 0;
 }
-
-#ifdef CONFIG_BATMAN_ADV_DEBUGFS
-
-/**
- * batadv_algo_seq_print_text() - Print the supported algorithms in a seq file
- * @seq: seq file to print on
- * @offset: not used
- *
- * Return: always 0
- */
-int batadv_algo_seq_print_text(struct seq_file *seq, void *offset)
-{
-	struct batadv_algo_ops *bat_algo_ops;
-
-	seq_puts(seq, "Available routing algorithms:\n");
-
-	hlist_for_each_entry(bat_algo_ops, &batadv_algo_list, list) {
-		seq_printf(seq, " * %s\n", bat_algo_ops->name);
-	}
-
-	return 0;
-}
-#endif
 
 static int batadv_param_set_ra(const char *val, const struct kernel_param *kp)
 {
